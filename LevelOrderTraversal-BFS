@@ -1,0 +1,66 @@
+import java.util.*;
+import java.util.Scanner;
+
+public class Main{
+    
+    static class Node{
+        int data;
+        Node left,right;
+        Node(int data){
+            this.data=data;
+            left=null;
+            right=null;
+        }
+    }
+    static Node buildTree(String[] arr){
+        if(arr.length==0 || arr[0].equals("null")){
+            return null;
+        }
+        int i=1;
+        Node root=new Node(Integer.parseInt(arr[0]));
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty() && i<arr.length){
+            Node current=q.poll();
+            if(i<arr.length && !arr[i].equals("null")){
+                current.left=new Node(Integer.parseInt(arr[i]));
+                q.add(current.left);
+            }
+            i++;
+            if(i<arr.length && !arr[i].equals("null")){
+                current.right=new Node(Integer.parseInt(arr[i]));
+                q.add(current.right);
+            }
+            i++;
+        }
+        return root;
+    }
+    static void LevelOrder(Node root){
+        if(root==null){
+            return;
+        }
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        Node current=null;
+        while(!q.isEmpty()){
+            current=q.poll();
+            System.out.print(current.data+" ");
+            
+            if(current.left!=null){
+                q.add(current.left);
+            }
+            if(current.right!=null){
+                q.add(current.right);
+            }
+        }
+    }
+    
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        sc.nextLine();
+        String[] arr=sc.nextLine().split(" ");
+        Node root=buildTree(arr);
+        LevelOrder(root);
+    }
+}
