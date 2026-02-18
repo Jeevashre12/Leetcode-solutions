@@ -45,3 +45,54 @@ public class Main{
         inorder(root);
     }
 }
+or 
+
+import java.util.*;
+import java.util.Scanner;
+public class Main{
+    
+    static class Node{
+        int data;
+        Node left,right;
+        Node(int data){
+            this.data=data;
+            left=null;
+            right=null;
+        }
+    }
+    static Node insert(Node root,int value){
+        if(root==null){
+            return new Node(value);
+        }
+        if(root.data<value){
+            root.right=insert(root.right,value);
+        }
+        if(root.data>value){
+            root.left=insert(root.left,value);
+        }
+        return root;
+    }
+    static void inorder(Node root){
+        if(root!=null){
+            inorder(root.left);
+            System.out.print(root.data+" ");
+            inorder(root.right);
+        }
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        Node root=null;
+        while(true){
+            String val=sc.next();
+            if(val.equals("-1")){
+                break;
+            }
+            if(val.equals("null")) continue;
+            int num=Integer.parseInt(val);
+            root=insert(root,num);   
+        }
+        inorder(root);
+        
+    }
+}
+
