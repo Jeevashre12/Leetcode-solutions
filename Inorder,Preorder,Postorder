@@ -64,3 +64,89 @@ public class Main{
         
     }
 }
+or 
+import java.util.*;
+import java.util.Scanner;
+public class Main{
+    static class Node{
+        int data;
+        Node left,right;
+        Node(int data){
+            this.data=data;
+            left=null;
+            right=null;
+        }
+    }
+    static Node insert(Node root,int value){
+        if(root==null){
+            return new Node(value);
+        }
+        if(root.data>value){
+            root.left=insert(root.left,value);
+        }
+        if(root.data<value){
+            root.right=insert(root.right,value);
+        }
+        return root;
+    }
+    static void inorder(Node root){
+        if(root!=null){
+            inorder(root.left);
+            System.out.print(root.data+" ");
+            inorder(root.right);
+        }
+    }
+     static void preorder(Node root){
+        if(root!=null){
+            System.out.print(root.data+" ");
+            preorder(root.left);
+            preorder(root.right);
+        }
+    }
+     static void postorder(Node root){
+        if(root!=null){
+            postorder(root.left);
+            postorder(root.right);
+             System.out.print(root.data+" ");
+        }
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        String input=sc.nextLine();
+        String arr[]=input.split(" ");
+        
+                   Node root=null;
+           for(int i=0;i<arr.length;i++){
+              if(arr[i].equals("-1")){
+                  if(i==arr.length-1){
+                      break;
+                  }
+                  continue;
+              }
+              int val=Integer.parseInt(arr[i]);
+              root=insert(root,val);
+           }
+        
+      
+       int c=sc.nextInt();
+       switch(c){
+          case 1:
+              System.out.println("Inorder");
+              inorder(root);
+              break;
+          case 2:
+              
+              System.out.println("preorder");
+              preorder(root);
+              break;
+          case 3:
+              
+              System.out.println("postorder");
+              postorder(root);
+              break;
+          default:
+                System.out.println("Invalid choice");
+       }
+        
+    }
+}
