@@ -64,3 +64,77 @@ public class Main{
         LevelOrder(root);
     }
 }
+or
+
+
+import java.util.*;
+import java.util.Scanner;
+public class Main{
+    static class Node{
+        int data;
+        Node left,right;
+        Node(int data){
+            this.data=data;
+            left=null;
+            right=null;
+        }
+    }
+    static Node buildTree(String[] arr){
+        if(arr.length==0 || arr[0].equals("-1")){
+            return null;
+        }
+        Node root=new Node(Integer.parseInt(arr[0]));
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        int i=1;
+        while(!q.isEmpty() && i<arr.length){
+            Node current=q.poll();
+            if(i<arr.length && !arr[i].equals("-1")){
+                current.left=new Node(Integer.parseInt(arr[i]));
+                q.add(current.left);
+            }
+            i++;
+            if(i<arr.length && !arr[i].equals("-1")){
+                current.right=new Node(Integer.parseInt(arr[i]));
+                q.add(current.right);
+            }
+            i++;
+        }
+        return root;
+    }
+    static void insert(Node root){
+        if(root==null){
+            return;
+        }
+        Queue<Node> q=new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+           Node current=q.poll();
+           System.out.print(current.data+" ");
+            if(current.left!=null){
+                q.add(current.left);
+            }
+            if(current.right!=null){
+                q.add(current.right);
+            }
+        }
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        Node root;
+        String input=sc.nextLine();
+        String[] arr1=input.split(" ");
+        ArrayList<String> list=new ArrayList<>();
+        for(int i=0;i<arr1.length;i++){
+            if(i==arr1.length-1 && arr1[i].equals("-1")){
+                break;
+            }
+            list.add(arr1[i]);
+        }
+
+        String arr[]=list.toArray(new String[0]);
+        root=buildTree(arr);
+        insert(root);
+        
+    }
+}
