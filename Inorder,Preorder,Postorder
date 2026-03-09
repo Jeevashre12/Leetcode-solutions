@@ -2,79 +2,11 @@ import java.util.*;
 import java.util.Scanner;
 public class Main{
     static class Node{
-        Node left,right;
-        int data;
-        Node(int data){
-            this.data=data;
-            left=null;
-            right=null;
-        }
-    }
-    static Node insert(Node root,int value){
-        if(root==null){
-            return new Node(value);
-        }
-        if(root.data>value){
-            root.left=insert(root.left,value);
-        }
-        else if(root.data<value){
-            root.right=insert(root.right,value);
-        }
-        return root;
-        
-    }
-    static void inorder(Node root){
-        if(root!=null){
-            inorder(root.left);
-            System.out.print(root.data+" ");
-            inorder(root.right);
-        }
-    }
-    static void preorder(Node root){
-        if(root!=null){
-            System.out.print(root.data+" ");
-            preorder(root.left);
-            preorder(root.right);
-        }
-    }
-    static void postorder(Node root){
-        if(root!=null){
-            postorder(root.left);
-            postorder(root.right);
-            System.out.print(root.data+" ");
-        }
-    }
-    public static void main(String[] args){
-        Scanner sc=new Scanner(System.in);
-        
-        Node root=null;
-        while(true){
-            String value=sc.next();
-            if(value.equals("-1")) break;
-            int num=Integer.parseInt(value);
-            root=insert(root,num);
-            
-        }
-        System.out.print("Inorder");
-        inorder(root);
-         System.out.print("preorder");
-        preorder(root);
-         System.out.print("postorder");
-        postorder(root);
-        
-    }
-}
-or 
-import java.util.*;
-import java.util.Scanner;
-public class Main{
-    static class Node{
         int data;
         Node left,right;
         Node(int data){
-            this.data=data;
-            left=null;
-            right=null;
+        this.data=data;
+        left=right=null;
         }
     }
     static Node insert(Node root,int value){
@@ -94,59 +26,46 @@ public class Main{
             inorder(root.left);
             System.out.print(root.data+" ");
             inorder(root.right);
+            
         }
     }
-     static void preorder(Node root){
+    static void preorder(Node root){
         if(root!=null){
-            System.out.print(root.data+" ");
+             System.out.print(root.data+" ");
             preorder(root.left);
             preorder(root.right);
+            
         }
     }
-     static void postorder(Node root){
+    static void postorder(Node root){
         if(root!=null){
             postorder(root.left);
             postorder(root.right);
-             System.out.print(root.data+" ");
+            System.out.print(root.data+" ");
+            
         }
     }
     public static void main(String[] args){
         Scanner sc=new Scanner(System.in);
-        String input=sc.nextLine();
-        String arr[]=input.split(" ");
+        String val=sc.nextLine();
+            String[] arr=val.split(" ");
+            ArrayList<String> li=new ArrayList<>();
+            for(int i=0;i<arr.length;i++){
+            if(arr[i].equals("-1") && i==arr.length-1){
+                break;
+            }
+            
+            li.add(arr[i]);
+            }
+        String[] arr2=li.toArray(new String[0]);
+        Node root=null;
+        for(int i=0;i<arr2.length;i++){
         
-                   Node root=null;
-           for(int i=0;i<arr.length;i++){
-              if(arr[i].equals("-1")){
-                  if(i==arr.length-1){
-                      break;
-                  }
-                  continue;
-              }
-              int val=Integer.parseInt(arr[i]);
-              root=insert(root,val);
-           }
-        
-      
-       int c=sc.nextInt();
-       switch(c){
-          case 1:
-              System.out.println("Inorder");
-              inorder(root);
-              break;
-          case 2:
-              
-              System.out.println("preorder");
-              preorder(root);
-              break;
-          case 3:
-              
-              System.out.println("postorder");
-              postorder(root);
-              break;
-          default:
-                System.out.println("Invalid choice");
-       }
+        root=insert(root,Integer.parseInt(arr2[i]));
+        }
+        inorder(root);
+        preorder(root);
+        postorder(root);
         
     }
 }
