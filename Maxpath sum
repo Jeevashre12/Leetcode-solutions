@@ -1,0 +1,45 @@
+import java.util.*;
+import java.util.Scanner;
+public class Main{
+    static class Node{
+        int data;
+        Node left,right;
+        Node(int data){
+            this.data=data;
+            left=right=null; 
+        }
+    }
+    static int maxSum=Integer.MIN_VALUE;
+    static int maxPathSum(Node root){
+        if(root==null){
+            return 0;
+        }
+        int left=Math.max(0,maxPathSum(root.left));
+        int right=Math.max(0,maxPathSum(root.right));
+        maxSum=Math.max(maxSum,root.data+right+left);
+        return Math.max(left,right)+root.data;
+    }
+    static Node insert(Node root,int val){
+        if(root==null){
+            return new Node(val);
+        }
+        if(val<root.data){
+            root.left=insert(root.left,val);
+        }
+        if(val>root.data){
+            root.right=insert(root.right,val);
+        }
+        return root;
+    }
+    public static void main(String[] args){
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        Node root=null;
+        for(int i=0;i<n;i++){
+            int val=sc.nextInt();
+            root=insert(root,val);
+        }
+        maxPathSum(root);
+        System.out.println(maxSum);
+    }
+}
