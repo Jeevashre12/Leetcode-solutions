@@ -1,0 +1,93 @@
+import java.util.*;
+
+public class Main{
+
+    static class Node{
+        int data;
+        Node left,right;
+
+        Node(int data){
+            this.data=data;
+        }
+    }
+
+    static boolean isSymmetric(Node root){
+
+        Queue<Node> q=new LinkedList<>();
+
+        q.add(root.left);
+        q.add(root.right);
+
+        while(!q.isEmpty()){
+
+            Node left=q.poll();
+            Node right=q.poll();
+
+            if(left==null && right==null)
+                continue;
+
+            if(left==null || right==null)
+                return false;
+
+            if(left.data!=right.data)
+                return false;
+
+            q.add(left.left);
+            q.add(right.right);
+
+            q.add(left.right);
+            q.add(right.left);
+        }
+
+        return true;
+    }
+
+    static Node buildTree(String[] arr){
+
+        if(arr.length==0 || arr[0].equals("-1"))
+            return null;
+
+        Queue<Node> q=new LinkedList<>();
+
+        Node root=new Node(Integer.parseInt(arr[0]));
+        q.add(root);
+
+        int i=1;
+
+        while(!q.isEmpty() && i<arr.length){
+
+            Node curr=q.poll();
+
+            if(i<arr.length && !arr[i].equals("-1")){
+                curr.left=new Node(Integer.parseInt(arr[i]));
+                q.add(curr.left);
+            }
+            i++;
+
+            if(i<arr.length && !arr[i].equals("-1")){
+                curr.right=new Node(Integer.parseInt(arr[i]));
+                q.add(curr.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
+    public static void main(String[] args){
+
+        Scanner sc=new Scanner(System.in);
+
+        int n=sc.nextInt();
+        sc.nextLine();
+
+        String[] arr=sc.nextLine().split(" ");
+
+        Node root=buildTree(arr);
+
+        if(isSymmetric(root))
+            System.out.println("Symmetric");
+        else
+            System.out.println("Not Symmetric");
+    }
+}
