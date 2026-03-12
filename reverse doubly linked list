@@ -1,0 +1,72 @@
+//File Name: reverseDLL.c
+//==================================
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+    struct Node *prev;
+};
+
+// Complete the below function to append a new node with given data to the end of the double linked list
+void append(struct Node **head_ref, int new_data) {
+    struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
+    struct Node *last = *head_ref;
+    new_node->data = new_data;
+    new_node->next = NULL;
+    new_node->prev = NULL;
+
+    if (*head_ref == NULL) {
+        *head_ref = new_node;
+        return;
+    }
+
+    while (last->next != NULL)
+        last = last->next;
+
+    last->next = new_node;
+    new_node->prev = last;
+    return;
+}
+
+// Complete the below function to reverse the double linked list
+static void reverse(struct Node **head) {
+    struct Node *temp = NULL;
+	struct Node *curr = *head;
+	while(curr != NULL){
+		temp = curr->prev;
+		curr->prev = curr->next;
+		curr->next = temp;
+		curr = curr->prev;
+	}
+    if(temp != NULL){
+		*head = temp->prev;
+	}
+	
+}
+
+// Complete the below function to traverse the linked list and print each node's data
+void printList(struct Node *node) {
+    while (node != NULL) {
+        printf("%d -> ", node->data);
+        node = node->next;
+    }
+}
+
+
+int main() {
+    struct Node *head = NULL;
+    int n, i, a;
+    scanf("%d", &n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &a);
+        append(&head, a);
+    }
+    printf("Linked list: ");
+    printList(head);
+    reverse(&head);
+    printf("\nReversed Linked list: ");
+    printList(head);
+    return 0;
+}
