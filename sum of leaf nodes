@@ -1,0 +1,85 @@
+import java.util.*;
+
+public class Main {
+
+    static class Node {
+        int data;
+        Node left, right;
+
+        Node(int data) {
+            this.data = data;
+        }
+    }
+
+    static int maxSum = Integer.MIN_VALUE;
+
+    static int maxLeafSum(Node root) {
+
+        if (root == null)
+            return 0;
+
+        if (root.left == null && root.right == null)
+            return root.data;
+
+        int left = maxLeafSum(root.left);
+        int right = maxLeafSum(root.right);
+
+        if (root.left != null && root.right != null) {
+            maxSum = Math.max(maxSum, left + right + root.data);
+            return Math.max(left, right) + root.data;
+        }
+
+        if (root.left == null)
+            return right + root.data;
+
+        return left + root.data;
+    }
+
+    static Node buildTree(String[] arr) {
+
+        if (arr.length == 0 || arr[0].equals("-1"))
+            return null;
+
+        Queue<Node> q = new LinkedList<>();
+
+        Node root = new Node(Integer.parseInt(arr[0]));
+        q.add(root);
+
+        int i = 1;
+
+        while (!q.isEmpty() && i < arr.length) {
+
+            Node curr = q.poll();
+
+            if (i < arr.length && !arr[i].equals("-1")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.left);
+            }
+            i++;
+
+            if (i < arr.length && !arr[i].equals("-1")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] arr = sc.nextLine().split(" ");
+
+        Node root = buildTree(arr);
+
+        maxLeafSum(root);
+
+        System.out.println(maxSum);
+    }
+}
